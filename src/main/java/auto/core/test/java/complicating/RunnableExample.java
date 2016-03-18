@@ -27,7 +27,12 @@ public class RunnableExample {
     public static class Task implements Runnable{
 
         public void run() {
-            System.out.println(Thread.currentThread().getName()+":这个一个任务！");
+            try {
+                Thread.sleep(5000);
+                System.out.println(Thread.currentThread().getName()+":这个一个任务！");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         
     }
@@ -37,6 +42,7 @@ public class RunnableExample {
         for(@SuppressWarnings("unused") int i:(new int[10])){
             executor.submit(new Task());
         }
+        System.out.println("=================================");
     }
 
 }
