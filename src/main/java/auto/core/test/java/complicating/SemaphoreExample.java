@@ -11,6 +11,8 @@
 
 package auto.core.test.java.complicating;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -63,13 +65,14 @@ public class SemaphoreExample {
      *  *为者常成，行者常至*
      */
     public static void main(String[] args) {
+        ExecutorService pool = Executors.newFixedThreadPool(10);
         int N = 8;            //工人数
         Semaphore semaphore = new Semaphore(5); //机器数目
         for(int i=0;i<N;i++)
-            new Worker(i,semaphore).start();
+            pool.execute(new Worker(i, semaphore));
     }
      
-    static class Worker extends Thread{
+    static class Worker implements Runnable{
         private int num;
         private Semaphore semaphore;
         public Worker(int num,Semaphore semaphore){
